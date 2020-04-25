@@ -1,5 +1,9 @@
 package com.greenatom.skillbattle.bot.services
 
+import com.greenatom.skillbattle.bot.configuration.KeyboardConfiguration.Companion.BATTLE
+import com.greenatom.skillbattle.bot.configuration.KeyboardConfiguration.Companion.DESCRIPTION
+import com.greenatom.skillbattle.bot.configuration.KeyboardConfiguration.Companion.SETTINGS
+import com.greenatom.skillbattle.bot.configuration.KeyboardConfiguration.Companion.STATISTICS
 import org.springframework.stereotype.Service
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Message
@@ -29,14 +33,14 @@ class BotServiceImpl {
         val keyboardMarkup = ReplyKeyboardMarkup()
         val keyboard: MutableList<KeyboardRow> = ArrayList()
         var row = KeyboardRow()
-        row.add("Row 1 Button 1")
-        row.add("Row 1 Button 2")
-        row.add("Row 1 Button 3")
+        row.add(BATTLE)
         keyboard.add(row)
         row = KeyboardRow()
-        row.add("Row 2 Button 1")
-        row.add("Row 2 Button 2")
-        row.add("Row 2 Button 3")
+        row.add(DESCRIPTION)
+        keyboard.add(row)
+        row = KeyboardRow()
+        row.add(STATISTICS)
+        row.add(SETTINGS)
         keyboard.add(row)
         keyboardMarkup.keyboard = keyboard
         response.replyMarkup = keyboardMarkup

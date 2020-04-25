@@ -57,6 +57,10 @@ class Bot : TelegramLongPollingBot() {
                 return
             }
 
+            if (textMessage == "⚔️ Битва") {
+                println("Ti pisun")
+            }
+
 //            val message: Message = update.message
 //            val response = SendMessage()
 //            val chatId = message.chatId
