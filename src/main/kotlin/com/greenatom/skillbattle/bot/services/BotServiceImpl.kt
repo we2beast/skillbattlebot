@@ -4,6 +4,8 @@ import com.greenatom.skillbattle.bot.configuration.KeyboardConfiguration.Compani
 import com.greenatom.skillbattle.bot.configuration.KeyboardConfiguration.Companion.DESCRIPTION
 import com.greenatom.skillbattle.bot.configuration.KeyboardConfiguration.Companion.SETTINGS
 import com.greenatom.skillbattle.bot.configuration.KeyboardConfiguration.Companion.STATISTICS
+import com.greenatom.skillbattle.bot.utils.MessageUtil
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Message
@@ -12,22 +14,23 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import java.util.ArrayList
 
 @Service
-class BotServiceImpl {
+class BotServiceImpl(
+        val messageUtil: MessageUtil
+) {
 
     fun startMethod(message: Message): SendMessage {
-        val response = initMessageWithChatId(message)
+        val response = messageUtil.initMessageWithChatId(message)
         response.text = "Привет!\nЭто бот\nДля вызова меню отправьте /markup"
 
         return keyboardMethod(response)
     }
 
     fun markUpMethod(message: Message): SendMessage {
-        val response = initMessageWithChatId(message)
+        val response = messageUtil.initMessageWithChatId(message)
         response.text = "Вызов клавиатуры"
 
         return keyboardMethod(response)
     }
-
 
     private fun keyboardMethod(response: SendMessage): SendMessage {
         val keyboardMarkup = ReplyKeyboardMarkup()
@@ -44,14 +47,6 @@ class BotServiceImpl {
         keyboard.add(row)
         keyboardMarkup.keyboard = keyboard
         response.replyMarkup = keyboardMarkup
-
-        return response
-    }
-
-    private fun initMessageWithChatId(message: Message): SendMessage {
-        val response = SendMessage()
-        val chatId = message.chatId
-        response.setChatId(chatId)
 
         return response
     }

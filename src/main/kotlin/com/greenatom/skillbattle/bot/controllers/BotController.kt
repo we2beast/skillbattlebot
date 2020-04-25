@@ -1,5 +1,11 @@
 package com.greenatom.skillbattle.bot.controllers
 
+import com.greenatom.skillbattle.bot.configuration.KeyboardConfiguration.Companion.BATTLE
+import com.greenatom.skillbattle.bot.configuration.KeyboardConfiguration.Companion.CAPITULATION
+import com.greenatom.skillbattle.bot.configuration.KeyboardConfiguration.Companion.DESCRIPTION
+import com.greenatom.skillbattle.bot.configuration.KeyboardConfiguration.Companion.SETTINGS
+import com.greenatom.skillbattle.bot.configuration.KeyboardConfiguration.Companion.STATISTICS
+import com.greenatom.skillbattle.bot.services.BattleServiceImpl
 import com.greenatom.skillbattle.bot.services.BotServiceImpl
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,6 +25,9 @@ class Bot : TelegramLongPollingBot() {
 
     @Autowired
     lateinit var botServiceImpl: BotServiceImpl
+
+    @Autowired
+    lateinit var battleServiceImpl: BattleServiceImpl
 
     @Value("\${bot.token}")
     private val token: String? = null
@@ -45,28 +54,37 @@ class Bot : TelegramLongPollingBot() {
                 return
             }
 
-            val textMessage = update.message.text
-
-            if (textMessage == "/start") {
-                sendMessage(botServiceImpl.startMethod(update.message))
-                return
+            when (update.message.text) {
+                "/start" -> {
+                    sendMessage(botServiceImpl.startMethod(update.message))
+                    return
+                }
+                "/markup" -> {
+                    sendMessage(botServiceImpl.markUpMethod(update.message))
+                    return
+                }
+                BATTLE -> {
+                    sendMessage(battleServiceImpl.battleMethod(update.message))
+                    return
+                }
+                DESCRIPTION -> {
+                    TODO("Battle service is here")
+                }
+                STATISTICS -> {
+                    TODO("Battle service is here")
+                }
+                SETTINGS -> {
+                    TODO("Battle service is here")
+                }
+                CAPITULATION -> {
+                    sendMessage(botServiceImpl.markUpMethod(update.message))
+                    return
+                }
+                else -> {
+                    val message = prepareMessage(update.message.chatId, "Такой команды нет")
+                    sendMessage(message)
+                }
             }
-
-            if (textMessage == "/markup") {
-                sendMessage(botServiceImpl.markUpMethod(update.message))
-                return
-            }
-
-            if (textMessage == "⚔️ Битва") {
-                println("Ti pisun")
-            }
-
-//            val message: Message = update.message
-//            val response = SendMessage()
-//            val chatId = message.chatId
-//            response.setChatId(chatId)
-//            val text = message.text
-//            response.text = text
 
         }
     }
