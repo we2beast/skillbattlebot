@@ -7,6 +7,7 @@ import com.greenatom.skillbattle.bot.configuration.KeyboardConfiguration.Compani
 import com.greenatom.skillbattle.bot.configuration.KeyboardConfiguration.Companion.STATISTICS
 import com.greenatom.skillbattle.bot.services.BattleServiceImpl
 import com.greenatom.skillbattle.bot.services.BotServiceImpl
+import com.greenatom.skillbattle.bot.services.GamerServiceImpl
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -29,11 +30,17 @@ class Bot : TelegramLongPollingBot() {
     @Autowired
     lateinit var battleServiceImpl: BattleServiceImpl
 
+    @Autowired
+    lateinit var gamerServiceImpl: GamerServiceImpl
+
     @Value("\${bot.token}")
     private val token: String? = null
 
     @Value("\${bot.username}")
     private val username: String? = null
+
+    @Value("\${bot.event}")
+    private val eventName: String = ""
 
     override fun getBotToken(): String {
         return token!!
@@ -54,14 +61,9 @@ class Bot : TelegramLongPollingBot() {
                 return
             }
 
-            if (update.message.text.length == 4 && update.message.text.toIntOrNull() != null) {
-                val message = prepareMessage(update.message.chatId, update.message.text)
-                sendMessage(message)
-                return
-            }
-
             when (update.message.text) {
                 "/start" -> {
+                    gamerServiceImpl.existUserOrSave(update.message.chatId.toString(), eventName)
                     sendMessage(botServiceImpl.startMethod(update.message))
                     return
                 }

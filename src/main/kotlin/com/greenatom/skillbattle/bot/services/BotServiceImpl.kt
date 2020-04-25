@@ -5,7 +5,6 @@ import com.greenatom.skillbattle.bot.configuration.KeyboardConfiguration.Compani
 import com.greenatom.skillbattle.bot.configuration.KeyboardConfiguration.Companion.SETTINGS
 import com.greenatom.skillbattle.bot.configuration.KeyboardConfiguration.Companion.STATISTICS
 import com.greenatom.skillbattle.bot.utils.MessageUtil
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Message
@@ -20,7 +19,7 @@ class BotServiceImpl(
 
     fun startMethod(message: Message): SendMessage {
         val response = messageUtil.initMessageWithChatId(message)
-        response.text = "Привет!\nЭто бот\nДля вызова меню отправьте /markup"
+        response.text = "Приветствую, меня зовут NewTeamBot.\nВведи код мероприятия\nДля вызова меню отправьте /markup"
 
         return keyboardMethod(response)
     }
