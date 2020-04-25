@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMembersCount
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
-import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.Update
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException
 import javax.annotation.PostConstruct
@@ -42,26 +41,41 @@ class Bot : TelegramLongPollingBot() {
             chatMembersCount.chatId = update.message.chatId.toString()
 
             if (execute(chatMembersCount) != 2 || chat.isChannelChat || chat.isSuperGroupChat) {
-                execute(prepareMessage(update.message.chatId, "Это групповой чат. Меня не взломать :)"))
+                sendMessage(prepareMessage(update.message.chatId, "Это групповой чат. Меня не взломать :)"))
                 return
             }
 
-            if (update.message.text == "/start") {
-                execute(botServiceImpl.startMethod(update.message))
+            val textMessage = update.message.text
+
+            if (textMessage == "/start") {
+                sendMessage(botServiceImpl.startMethod(update.message))
                 return
             }
 
-            val message: Message = update.message
-            val response = SendMessage()
-            val chatId = message.chatId
-            response.setChatId(chatId)
-            val text = message.text
-            response.text = text
-            try {
-                log.info("Sent message \"{}\" to {}", text, chatId)
-            } catch (e: TelegramApiException) {
-                log.error("Failed to send message \"{}\" to {} due to error: {}", text, chatId, e.message)
+            if (textMessage == "/markup") {
+                sendMessage(botServiceImpl.markUpMethod(update.message))
+                return
             }
+
+//            val message: Message = update.message
+//            val response = SendMessage()
+//            val chatId = message.chatId
+//            response.setChatId(chatId)
+//            val text = message.text
+//            response.text = text
+
+        }
+    }
+
+    private fun sendMessage(message: SendMessage) {
+        val textMessage = message.text
+        val chatId = message.chatId
+
+        try {
+            execute(message)
+            log.info("Sent message \"{}\" to {}", textMessage, chatId) // TODO: Убрать при показе
+        } catch (e: TelegramApiException) {
+            log.error("Failed to send message \"{}\" to {} due to error: {}", textMessage, chatId, e.message)
         }
     }
 
