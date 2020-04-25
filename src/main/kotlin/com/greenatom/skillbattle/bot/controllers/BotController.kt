@@ -54,6 +54,12 @@ class Bot : TelegramLongPollingBot() {
                 return
             }
 
+            if (update.message.text.length == 4 && update.message.text.toIntOrNull() != null) {
+                val message = prepareMessage(update.message.chatId, update.message.text)
+                sendMessage(message)
+                return
+            }
+
             when (update.message.text) {
                 "/start" -> {
                     sendMessage(botServiceImpl.startMethod(update.message))
