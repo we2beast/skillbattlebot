@@ -117,9 +117,4 @@ class Bot : TelegramLongPollingBot() {
         return response
     }
 
-    @PostConstruct
-    fun start() {
-        log.info("username: {}, token: {}", username, token)
-    }
-
 }

@@ -15,5 +15,9 @@ data class Gamer(
 
         @ManyToMany(cascade = [CascadeType.MERGE])
         @JoinTable(name = "gamer_battle", joinColumns = [JoinColumn(name = "gamer_id")], inverseJoinColumns = [JoinColumn(name = "battle_id")])
-        var battles: Set<Battle> = setOf()
+        var battles: Set<Battle> = setOf(),
+
+        @ManyToMany(cascade = [CascadeType.MERGE])
+        @JoinTable(name = "gamer_answer", joinColumns = [JoinColumn(name = "gamer_id")], inverseJoinColumns = [JoinColumn(name = "answer_id")])
+        var answers: Set<Answer> = setOf()
 )

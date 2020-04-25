@@ -30,5 +30,9 @@ data class Battle(
         var speed: Int? = null,
 
         @Column(name = "started")
-        var started: Boolean = false
+        var started: Boolean = false,
+
+        @OneToMany(cascade = [CascadeType.MERGE])
+        @JoinTable(name = "battle_question", joinColumns = [JoinColumn(name = "battle_id")], inverseJoinColumns = [JoinColumn(name = "question_id")])
+        var questions: Set<Question> = setOf()
 )
