@@ -14,7 +14,7 @@ data class Battle(
         @Column(name = "title")
         var title: String? = null,
 
-        @Column(name = "description")
+        @Column(name = "description", columnDefinition="TEXT")
         var description: String? = null,
 
         @Column(name = "closed")

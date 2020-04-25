@@ -1,6 +1,5 @@
 package com.greenatom.skillbattle.bot.services
 
-import com.greenatom.skillbattle.bot.entities.Battle
 import com.greenatom.skillbattle.bot.entities.Gamer
 import com.greenatom.skillbattle.bot.repositories.GamerRepository
 import com.greenatom.skillbattle.bot.repositories.SurveyRepository
