@@ -19,7 +19,16 @@ class BotServiceImpl(
 
     fun startMethod(message: Message): SendMessage {
         val response = messageUtil.initMessageWithChatId(message)
-        response.text = "Приветствую, меня зовут NewTeamBot.\nВведи код мероприятия\nДля вызова меню отправьте /markup"
+        response.text = "Приветствую тебя, чемпион \uD83D\uDC4B\n" +
+                "Меня зовут @skillbattlebot и я буду сопровождать тебя в этом нелёгком путешествии\uD83E\uDDD9\u200D♂️\n" +
+                "\n" +
+                "Здесь ты можешь:\n" +
+                "⚔️ сражаться с противниками\n" +
+                "\uD83D\uDCC8 посмотреть свою статистику\n" +
+                "\uD83D\uDCDC получить информацию о текущем мероприятии\n" +
+                "\n" +
+                "\uD83D\uDD1D Повышай свой рейтинг с помощью битв, чтобы добраться до сокровищ Великого Элементарио \uD83D\uDC8E\n" +
+                "\uD83C\uDF81 Лучшие игроки мероприятия получат от нас ценные призы"
 
         return keyboardMethod(response)
     }

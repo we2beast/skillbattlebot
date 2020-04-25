@@ -72,6 +72,7 @@ class Bot : TelegramLongPollingBot() {
                     return
                 }
                 BATTLE -> {
+                    gamerServiceImpl.existUserOrSave(update.message.chatId.toString(), eventName)
                     sendMessage(battleServiceImpl.battleMethod(update.message))
                     return
                 }
