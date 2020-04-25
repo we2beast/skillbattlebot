@@ -7,9 +7,12 @@ import javax.persistence.*
 data class Answer(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
-        @Column(name = "answer_id")
         var id: Int? = null,
 
         @Column(name = "label", columnDefinition="TEXT")
-        var label: String? = null
+        var label: String? = null,
+
+        @ManyToOne(fetch = FetchType.LAZY)
+        @MapsId("question_id")
+        var questions: Question
 )

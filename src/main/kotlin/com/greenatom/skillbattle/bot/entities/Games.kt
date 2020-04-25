@@ -7,7 +7,6 @@ import javax.persistence.*
 data class Games(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
-        @Column(name = "games_id")
         var id: Int? = null,
 
         @ManyToOne(cascade = [CascadeType.MERGE])
@@ -19,6 +18,6 @@ data class Games(
         val enemySecond: Gamer,
 
         @OneToOne(cascade = [CascadeType.MERGE])
-        @JoinColumn(name = "survey_id")
+        @MapsId("battleId")
         val battle: Battle
 )

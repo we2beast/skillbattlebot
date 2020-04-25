@@ -64,6 +64,7 @@ class Bot : TelegramLongPollingBot() {
             when (update.message.text) {
                 "/start" -> {
                     gamerServiceImpl.existUserOrSave(update.message.chatId.toString(), eventName)
+
                     sendMessage(botServiceImpl.startMethod(update.message, eventName))
                     return
                 }

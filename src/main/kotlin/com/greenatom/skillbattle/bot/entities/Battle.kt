@@ -8,13 +8,12 @@ import javax.persistence.*
 data class Battle(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
-        @Column(name = "battle_id")
-        var id: Int? = null,
+        var id: Long? = null,
 
         @Column(name = "title")
         var title: String? = null,
 
-        @Column(name = "description", columnDefinition="TEXT")
+        @Column(name = "description", columnDefinition = "TEXT")
         var description: String? = null,
 
         @Column(name = "closed")
@@ -32,7 +31,6 @@ data class Battle(
         @Column(name = "started")
         var started: Boolean = false,
 
-        @OneToMany(cascade = [CascadeType.MERGE])
-        @JoinTable(name = "battle_question", joinColumns = [JoinColumn(name = "battle_id")], inverseJoinColumns = [JoinColumn(name = "question_id")])
+        @OneToMany(mappedBy = "battles", fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
         var questions: Set<Question> = setOf()
 )
